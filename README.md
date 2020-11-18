@@ -2,7 +2,7 @@
 
 #### <div align="center"> A simple login script written in Python </div>
 
-##### Make sure you have Python installed, otherwise it won't run.
+##### Make sure you have Python 3.x installed, otherwise it won't run.
 
 ## Run it in Windows
 ```bash
