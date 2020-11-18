@@ -1,6 +1,4 @@
-import getpass
-import os
-import time
+import getpass, os, time, obf
 from os import path
 
 class Information:
@@ -27,20 +25,31 @@ class Information:
             exit
 
     def check(self, searchtext):
-        with open("database.db", "r") as readobj:
+        with open("database.db", "r", encoding='utf-8') as readobj:
             for line in readobj:
                 if searchtext in line:
                     return True
         return False
 
-    def store(self, username, password):
+    def store(self, username, password, basedata):
+        if basedata == False:
+            storeInfo = open("database.db", "x", encoding='utf-8')
+        elif basedata == True:
+            storeInfo = open("database.db", "a", encoding='utf-8')
+        username = input("Please put the username: ")
+        password = getpass.getpass("Please put the password: ")
+        username = obf.obfuscate(username)
+        password = obf.obfuscate(password)
         storeInfo.write(username + "\n" + password + "\n\n")
         storeInfo.close()
         f.done("temp")
 
     def login(self, username, password):
+        storeInfo = open("database.db", "r")
         username = input("Please put the username: ")
         password = getpass.getpass("Please put the password: ")
+        username = obf.obfuscate(username)
+        password = obf.obfuscate(password)
         userchecker = f.check(username)
         passchecker = f.check(password)
         if userchecker == True and passchecker == True:
@@ -62,14 +71,13 @@ class Information:
                 if basedata == False:
                     loopfunc = True
                     storeInfo = open("database.db", "x")
-                    f.store(input("Please put the username: "), getpass.getpass("Please put the password: "))
+                    f.store("temp", "temp", basedata)
                 elif basedata == True:
                     loopfunc = True
                     storeInfo = open("database.db", "a")
-                    f.store(input("Please put the username: "), getpass.getpass("Please put the password: "))
+                    f.store("temp", "temp", basedata)
             elif check == "login":
                 loopfunc = True
-                storeInfo = open("database.db", "r")
                 f.login("temp", "temp")
             else:
                 loopfunc = False
